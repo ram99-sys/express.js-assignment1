@@ -395,7 +395,7 @@ const validateDueDate1 = async (request, response, next) => {
         "yyyy-MM-dd"
       );
       console.log(new_due_date);
-      const updateDate = `UPDATE todo SET due_date = ${new_due_date} WHERE id = ${todoId};`;
+      const updateDate = `UPDATE todo SET due_date = '${new_due_date}' WHERE id = ${todoId};`;
       await db.run(updateDate);
       response.send("Due Date Updated");
     } else {
@@ -483,15 +483,10 @@ app.post(
   async (request, response) => {
     const todoDetails = request.body;
     const { id, todo, priority, status, category, dueDate } = todoDetails;
-    const addTodo = `INSERT INTO todo(id,todo,priority,status,category,due_date) 
-    VALUES (
-        ${id},
-        '${todo}',
-        '${priority}',
-        '${status}',
-        '${category}',
-        '${dueDate}'
-    );`;
+    console.log(`${id},${todo},${priority},${status},${category},${dueDate}`);
+    //const { id, todo, category, priority, status, dueDate } = todoDetails;
+    //console.log(`${id},${todo},${category},${priority},${status},${dueDate}`);
+    const addTodo = `INSERT INTO todo VALUES (${id},'${todo}','${category}','${priority}','${status}','${dueDate}');`;
     await db.run(addTodo);
     response.send("Todo Successfully Added");
   }
